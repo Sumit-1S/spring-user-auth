@@ -56,8 +56,6 @@ public class ResApplication {
 	@PostMapping("/login")
 	@ResponseBody
 	public Boolean login(@RequestBody UserLoginRequest user) throws Exception{
-		user.setPassword(user.getPassword());
-		System.out.println(user.getPassword());
 		return service.verifyUser(user);	
 	}
 	
