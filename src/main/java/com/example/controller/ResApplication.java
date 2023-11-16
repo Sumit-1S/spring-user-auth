@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,46 +21,30 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.entity.User;
-import com.example.service.UserService;
-import com.model.UserRegisterRequest;
-import com.model.UserLoginRequest;
-import com.model.UserPasswordResetRequest;
+import com.example.entity.Discount;
+import com.example.service.DiscountService;
+import com.model.DiscountRegisterRequest;
 
 
 @Controller
-@RequestMapping("/loginService")
+@RequestMapping("/discountservice")
 public class ResApplication {
 	
 	@Autowired
-	private UserService service;
+	private DiscountService service;
 	
 	
-	@PostMapping("/register")
+	@PostMapping("/adddiscount")
 	@ResponseBody
-	public ResponseEntity<String> registerValidate(@RequestBody UserRegisterRequest user) throws Exception{
-		System.out.println(user);
-		if(user.getPassword().equals(user.getConfirmPassword())) {
-			return new ResponseEntity<>(service.addUser(new User(user.getUsername(),user.getPassword(),user.getUserType())),HttpStatus.OK);
-		}
-		return new ResponseEntity<>("Passwords Don't Match!!!",HttpStatus.OK);
+	public ResponseEntity<String> registerValidate(@RequestBody DiscountRegisterRequest discount) throws Exception{
+		System.out.println(discount);
+		return new ResponseEntity<>(service.addDiscount(new Discount(discount.getPolicyId(),discount.getDiscount_price(),discount.getActive())),HttpStatus.OK);
 	}
 	
-	@PutMapping("/forgetpassword")
+	@GetMapping("/showdiscount/{policyId}")
 	@ResponseBody
-	@Transactional
-	public String forgetPassword(@RequestBody UserPasswordResetRequest user) throws Exception{
-		user.setPassword(user.getPassword());
-		user.setConfirmPassword(user.getConfirmPassword());
-		return service.updatePassword(user);	
-	}
-	
-	@PostMapping("/login")
-	@ResponseBody
-	public Boolean login(@RequestBody UserLoginRequest user) throws Exception{
-		user.setPassword(user.getPassword());
-		System.out.println(user.getPassword());
-		return service.verifyUser(user);	
+	public ArrayList<Discount> login(@PathVariable Integer policyId) throws Exception{
+		return service.getAllDiscount(policyId);	
 	}
 	
 

@@ -27,23 +27,5 @@ public class SpringMicroServiceApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SpringMicroServiceApplication.class, args);
 	}
-	@Bean
-	public Docket swaggerconf() {
-		return new Docket(DocumentationType.SWAGGER_2).
-				select()
-				.apis(RequestHandlerSelectors.basePackage("com"))
-				.build()
-				.apiInfo(apiDetails());
-	}
-	public ApiInfo apiDetails() {
-		return new ApiInfo("SunLife API DOC",
-				"Sample API for End User Review", 
-				"1.3.4",
-				"For Internal Use only",
-				new springfox.documentation.service.Contact("Amarjeet", "http://www.asreet-tech.com", "connect@asreet-tech.com"),
-				"Api License",
-				"http://sunlife.com",
-				Collections.emptyList());
-	}
 
 }
