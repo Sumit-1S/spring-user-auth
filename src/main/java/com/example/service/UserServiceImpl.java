@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.DAO.UserDAO;
 import com.example.entity.User;
 import com.model.UserLoginRequest;
+import com.model.UserLoginResponse;
 import com.model.UserPasswordResetRequest;
 
 @Service
@@ -47,13 +48,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Boolean verifyUser(UserLoginRequest userRequest) {
+	public UserLoginResponse verifyUser(UserLoginRequest userRequest) {
 		Optional<User> user = userDAO.findById(userRequest.getUsername());
 		if(user.isPresent() && user.get().getPassword().equals(userRequest.getPassword()))
 		{
-			return true;
+			return new UserLoginResponse(user.get().getUsername(),user.get().getUserType());
 		}
-		return false;
+		return new UserLoginResponse();
 	}
 	
 	

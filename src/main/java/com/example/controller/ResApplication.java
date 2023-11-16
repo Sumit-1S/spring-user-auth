@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,11 +24,13 @@ import com.example.entity.User;
 import com.example.service.UserService;
 import com.model.UserRegisterRequest;
 import com.model.UserLoginRequest;
+import com.model.UserLoginResponse;
 import com.model.UserPasswordResetRequest;
 
 
 @Controller
 @RequestMapping("/loginService")
+@CrossOrigin("http://localhost:3002")
 public class ResApplication {
 	
 	@Autowired
@@ -55,7 +58,7 @@ public class ResApplication {
 	
 	@PostMapping("/login")
 	@ResponseBody
-	public Boolean login(@RequestBody UserLoginRequest user) throws Exception{
+	public UserLoginResponse login(@RequestBody UserLoginRequest user) throws Exception{
 		return service.verifyUser(user);	
 	}
 	
